@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # searching: search index related functions
 
-import io
-import json
 import logging
 import requests
 
