@@ -1,3 +1,6 @@
+# scanned docs for dev
+scans/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
