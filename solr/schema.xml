@@ -8,11 +8,6 @@
    <field name="tags" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="resource" type="string" indexed="true" stored="true" />
 
-   <copyField source="original" dest="content" />
-   <copyField source="tags" dest="content" />
-   <copyField source="resource" dest="content" />
-   <copyField source="create_date" dest="content" />
-
    <uniqueKey>id</uniqueKey>
 
     <fieldType name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
