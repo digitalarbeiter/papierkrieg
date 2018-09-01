@@ -3,29 +3,42 @@
 import logging
 import re
 
-import enchant
 from PIL import Image
-import pytesseract
-
+import pyocr.tesseract as pytesseract
 
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.DEBUG)
 
 
-def extract(image_file):
+def words(text):
+    return re.findall(r'\w+', text.lower())
+
+
+def extract(image_file, spellchecker=None):
     text = pytesseract.image_to_string(Image.open(image_file), lang="deu")
-    dictionary = enchant.Dict("de_DE")
+    # TODO: email address recognition -> collect separately
     clean_text = []
     for word in re.findall(r"\w+", text):
         word = word.strip()
         if not word:
             continue
-        if dictionary.check(word):
+        if word.isdigit():
             clean_text.append(word)
+            continue
+        if len(word) == 1:
+            clean_text.append(word)
+            continue
+        if spellchecker:
+            correction = spellchecker(word.lower())
+            if correction and not isinstance(correction, str):
+                correction = correction[0]
         else:
-            suggestions = dictionary.suggest(word)
-            if suggestions:
-                clean_text.append(suggestions[0] + "=" + word)
-            else:
-                clean_text.append(word + "?")
+            correction = None
+        if correction:
+            if word[0].isupper():
+                # keep capitalization of first char.
+                correction = correction[0].upper() + correction[1:]
+            clean_text.append(correction)
+        else:
+            clean_text.append(word + "?")
     return " ".join(clean_text)
