@@ -12,7 +12,6 @@ _log.setLevel(logging.DEBUG)
 
 def extract(image_file, spellchecker=None):
     text = pytesseract.image_to_string(Image.open(image_file), lang="deu")
-    # TODO: email address recognition -> collect separately
     clean_text = []
     for word in re.findall(r"\w+", text):
         word = word.strip()
@@ -39,4 +38,12 @@ def extract(image_file, spellchecker=None):
             clean_text.append(correction)
         else:
             clean_text.append(word + "?")
-    return " ".join(clean_text)
+    emails = []
+    for email in re.findall(
+        "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b",
+        text,
+        flags=re.UNICODE+re.IGNORECASE,
+    ):
+        _log.debug("email: %s", email)
+        emails.append(email)
+    return " ".join(clean_text), emails

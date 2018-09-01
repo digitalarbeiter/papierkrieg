@@ -37,7 +37,7 @@ def main(input_file):
     h = hashlib.md5()
     h.update(input_file.encode("utf-8"))
     doc_id = h.hexdigest()
-    original_text = scan2doc.extract(
+    original_text, original_emails = scan2doc.extract(
         input_file,
         spellchecker=spellchecker.correction,  # for ProbabilisticSpellChecker
         #spellchecker=spellchecker.suggest,  # for enchant.Dict
@@ -47,6 +47,11 @@ def main(input_file):
         len(original_text),
         original_text[:20],
     ))
+    if original_emails:
+        click.echo("found {} email adresses: {}".format(
+            len(original_emails),
+            original_emails,
+        ))
     #search.index({
     #    "id": doc_id,
     #    "resource": input_file,
