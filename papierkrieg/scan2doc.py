@@ -10,10 +10,6 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.DEBUG)
 
 
-def words(text):
-    return re.findall(r'\w+', text.lower())
-
-
 def extract(image_file, spellchecker=None):
     text = pytesseract.image_to_string(Image.open(image_file), lang="deu")
     # TODO: email address recognition -> collect separately
@@ -31,6 +27,8 @@ def extract(image_file, spellchecker=None):
         if spellchecker:
             correction = spellchecker(word.lower())
             if correction and not isinstance(correction, str):
+                # some spellcheckers return a list of suggestions -> use
+                # first suggestion
                 correction = correction[0]
         else:
             correction = None
