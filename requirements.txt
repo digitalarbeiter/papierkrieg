@@ -1,0 +1,6 @@
+click
+pyenchant
+requests
+pyocr
+Pillow
+probspellchecker
