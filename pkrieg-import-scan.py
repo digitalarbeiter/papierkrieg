@@ -15,7 +15,7 @@ import papierkrieg.scan2doc as scan2doc
 
 
 
-WORDS = json.load(open("probspellchecker/dictionary_dewiki_full10plus.json"))
+WORDS = json.load(open("../probspellchecker/dictionary_dewiki_full10plus.json"))
 CUSTOM_DICT = [
     "schemitz",
     "heß",
