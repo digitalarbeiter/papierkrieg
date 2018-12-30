@@ -14,6 +14,9 @@ then have some machine learning models date and classify it ("tax", "car",
 etc). Put it in an index to make it searchable and filterable. Provide a
 nice web frontend.
 
+Papierkrieg should also provide fetching mechanisms for web pages or mail
+like phone bills, electronic paychecks etc.
+
 ## Status and Plans
 
 This is all utterly experimental. The third party tools (Tesseract for OCR,
